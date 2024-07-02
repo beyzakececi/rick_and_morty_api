@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'data_provider.dart';
 import 'models/character_model.dart';
 import 'models/location_model.dart';
+import 'splash_screen.dart';
 
 void main() {
   runApp(
@@ -18,10 +19,10 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return  MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Perasoft Demo',
-      home: MyHomePage(title: 'Rick and Morty'),
+      home: SplashScreen(),
     );
   }
 }
