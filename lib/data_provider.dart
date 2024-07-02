@@ -5,6 +5,8 @@ import 'models/location_model.dart';
 
 class DataProvider with ChangeNotifier {
   final ApiService apiService = ApiService();
+  List<Character> _allCharacters = [];
+  List<Location> _allLocations = [];
   List<Character> _characters = [];
   List<Location> _locations = [];
   bool _isLoading = false;
@@ -23,8 +25,11 @@ class DataProvider with ChangeNotifier {
 
     try {
       final charactersData = await apiService.fetchCharacters();
+      _allCharacters = charactersData;
       _characters = charactersData;
+
       final locationsData = await apiService.fetchLocations();
+      _allLocations = locationsData;
       _locations = locationsData;
     } catch (e) {
       // Handle error
@@ -35,8 +40,19 @@ class DataProvider with ChangeNotifier {
   }
 
   void search(String query) {
-    // Arama işlevselliği
-
+    if (query.isEmpty) {
+      _characters = _allCharacters;
+      _locations = _allLocations;
+    } else {
+      _characters = _allCharacters
+          .where((character) =>
+          character.name.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+      _locations = _allLocations
+          .where((location) =>
+          location.name.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    }
     notifyListeners();
   }
 }

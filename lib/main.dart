@@ -48,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               Expanded(
                 child: TextField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: 'Search...',
                     hintStyle: TextStyle(color: Colors.white70),
                     border: InputBorder.none,
@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
           ),
-          bottom: TabBar(
+          bottom: const TabBar(
             tabs: [
               Tab(text: 'Characters'),
               Tab(text: 'Locations'),
@@ -73,8 +73,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         body: dataProvider.isLoading
-            ? Center(child: CircularProgressIndicator())
-            : TabBarView(
+            ? const Center(child: CircularProgressIndicator())
+            : const TabBarView(
           children: [
             CharacterList(),
             LocationList(),
@@ -88,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
 class CharacterCard extends StatefulWidget {
   final Character character;
 
-  CharacterCard({required this.character});
+  const CharacterCard({required this.character});
 
   @override
   _CharacterCardState createState() => _CharacterCardState();
@@ -106,7 +106,7 @@ class _CharacterCardState extends State<CharacterCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -117,21 +117,23 @@ class _CharacterCardState extends State<CharacterCard> {
                 CircleAvatar(
                   backgroundImage: NetworkImage(widget.character.image),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Text(
                   widget.character.name,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text('Status: ${widget.character.status}'),
             Text('Species: ${widget.character.species}'),
             Text('Gender: ${widget.character.gender}'),
-            SizedBox(height: 10),
+            Text('Episode count: ${widget.character.episode.length}'),
+            Text('Created: ${widget.character.created.substring(0, 10)}'),
+            const SizedBox(height: 10),
             Align(
               alignment: Alignment.centerRight,
               child: ElevatedButton(
@@ -147,6 +149,8 @@ class _CharacterCardState extends State<CharacterCard> {
 }
 
 class CharacterList extends StatelessWidget {
+  const CharacterList({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final characters = Provider.of<DataProvider>(context).characters;
@@ -162,6 +166,8 @@ class CharacterList extends StatelessWidget {
 }
 
 class LocationList extends StatelessWidget {
+  const LocationList({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final locations = Provider.of<DataProvider>(context).locations;
@@ -171,7 +177,7 @@ class LocationList extends StatelessWidget {
       itemBuilder: (context, index) {
         final location = locations[index];
         return ListTile(
-          leading: Icon(Icons.location_on),
+          leading: const Icon(Icons.location_on),
           title: Text(location.name),
         );
       },
