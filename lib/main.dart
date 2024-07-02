@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'data_provider.dart';
-
+import 'models/character_model.dart';
 
 void main() {
   runApp(
@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   final String title;
+
   const MyHomePage({super.key, required this.title});
 
   @override
@@ -84,6 +85,67 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+class CharacterCard extends StatefulWidget {
+  final Character character;
+
+  CharacterCard({required this.character});
+
+  @override
+  _CharacterCardState createState() => _CharacterCardState();
+}
+
+class _CharacterCardState extends State<CharacterCard> {
+  bool isFollowed = false;
+
+  void toggleFollow() {
+    setState(() {
+      isFollowed = !isFollowed;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: EdgeInsets.all(10),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                CircleAvatar(
+                  backgroundImage: NetworkImage(widget.character.image),
+                ),
+                SizedBox(width: 10),
+                Text(
+                  widget.character.name,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 10),
+            Text('Status: ${widget.character.status}'),
+            Text('Species: ${widget.character.species}'),
+            Text('Gender: ${widget.character.gender}'),
+            SizedBox(height: 10),
+            Align(
+              alignment: Alignment.centerRight,
+              child: ElevatedButton(
+                onPressed: toggleFollow,
+                child: Text(isFollowed ? 'Followed' : 'Follow'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class CharacterList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -93,10 +155,7 @@ class CharacterList extends StatelessWidget {
       itemCount: characters.length,
       itemBuilder: (context, index) {
         final character = characters[index];
-        return ListTile(
-          leading: Image.network(character.image),
-          title: Text(character.name),
-        );
+        return CharacterCard(character: character);
       },
     );
   }

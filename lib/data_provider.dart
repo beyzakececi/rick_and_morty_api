@@ -36,6 +36,7 @@ class DataProvider with ChangeNotifier {
 
   void search(String query) {
     // Arama işlevselliği
+
     notifyListeners();
   }
 }
