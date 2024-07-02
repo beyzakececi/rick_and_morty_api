@@ -24,7 +24,8 @@ class _SplashScreenState extends State<SplashScreen> {
       if (_controller.value.position.inSeconds == 9) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => MyHomePage(title: 'Perasoft Demo')),
+          MaterialPageRoute(
+              builder: (context) => MyHomePage(title: 'Perasoft Demo')),
         );
       }
     });
@@ -44,12 +45,12 @@ class _SplashScreenState extends State<SplashScreen> {
         children: <Widget>[
           _controller.value.isInitialized
               ? AspectRatio(
-            aspectRatio: _controller.value.aspectRatio,
-            child: VideoPlayer(_controller),
-          )
+                  aspectRatio: _controller.value.aspectRatio,
+                  child: VideoPlayer(_controller),
+                )
               : Container(
-            color: Colors.black,
-          ),
+                  color: Colors.black,
+                ),
         ],
       ),
     );
