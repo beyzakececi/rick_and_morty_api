@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'data_provider.dart';
 import 'models/character_model.dart';
+import 'models/location_model.dart';
 
 void main() {
   runApp(
@@ -176,11 +177,54 @@ class LocationList extends StatelessWidget {
       itemCount: locations.length,
       itemBuilder: (context, index) {
         final location = locations[index];
-        return ListTile(
-          leading: const Icon(Icons.location_on),
-          title: Text(location.name),
-        );
+        return LocationCard(location: location);
       },
+    );
+  }
+}
+
+class LocationCard extends StatefulWidget {
+  final Location location;
+
+  const LocationCard({required this.location});
+
+  @override
+  _LocationCardState createState() => _LocationCardState();
+}
+
+class _LocationCardState extends State<LocationCard> {
+  List<Character> charactersInLocation = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchCharacters();
+  }
+
+  void _fetchCharacters() async {
+    final dataProvider = Provider.of<DataProvider>(context, listen: false);
+    charactersInLocation = dataProvider.characters
+        .where((character) => character.location.name == widget.location.name)
+        .toList();
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.all(10),
+      child: ExpansionTile(
+        title: Text(widget.location.name),
+        leading: const Icon(Icons.location_on),
+        children: charactersInLocation
+            .map((character) => ListTile(
+          leading: CircleAvatar(
+            backgroundImage: NetworkImage(character.image),
+          ),
+          title: Text(character.name),
+        ))
+            .toList(),
+      ),
     );
   }
 }
