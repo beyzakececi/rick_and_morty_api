@@ -1,4 +1,7 @@
-class Character {
+import 'character_location_model.dart';
+import 'origin_model.dart';
+
+class CharacterModel {
   final int id;
   final String name;
   final String status;
@@ -12,7 +15,7 @@ class Character {
   final String url;
   final String created;
 
-  Character({
+  CharacterModel({
     required this.id,
     required this.name,
     required this.status,
@@ -27,8 +30,8 @@ class Character {
     required this.created,
   });
 
-  factory Character.fromJson(Map<String, dynamic> json) {
-    return Character(
+  factory CharacterModel.fromJson(Map<String, dynamic> json) {
+    return CharacterModel(
       id: json['id'],
       name: json['name'],
       status: json['status'],
@@ -45,36 +48,4 @@ class Character {
   }
 }
 
-class Origin {
-  final String name;
-  final String url;
 
-  Origin({
-    required this.name,
-    required this.url,
-  });
-
-  factory Origin.fromJson(Map<String, dynamic> json) {
-    return Origin(
-      name: json['name'],
-      url: json['url'],
-    );
-  }
-}
-
-class CharacterLocation {
-  final String name;
-  final String url;
-
-  CharacterLocation({
-    required this.name,
-    required this.url,
-  });
-
-  factory CharacterLocation.fromJson(Map<String, dynamic> json) {
-    return CharacterLocation(
-      name: json['name'],
-      url: json['url'],
-    );
-  }
-}
