@@ -1,3 +1,4 @@
+
 import 'character_location_model.dart';
 import 'origin_model.dart';
 

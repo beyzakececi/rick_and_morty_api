@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'providers/data_provider.dart';
-import 'view/screen/splash_screen.dart';
+import 'features/home/viewmodel/data_provider.dart';
+import 'features/splash/view/splash_screen.dart';
 
 void main() {
   runApp(

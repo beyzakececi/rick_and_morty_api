@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/data_provider.dart';
+import '../../viewmodel/data_provider.dart';
 import 'location_card.dart';
 
 class LocationList extends StatelessWidget {

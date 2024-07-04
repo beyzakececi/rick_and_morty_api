@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../providers/data_provider.dart';
+import '../../viewmodel/data_provider.dart';
 
 class SearchBarCustom extends StatelessWidget {
   final DataProvider dataProvider;

@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
-import '../../viewmodel/splash_screen_view_model.dart';
-import 'homepage_screen.dart';
+import '../viewmodel/splash_screen_view_model.dart';
+import '../../home/view/homepage_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   @override

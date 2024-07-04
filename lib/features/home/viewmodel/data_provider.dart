@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/character_model.dart';
 import '../models/location_model.dart';
-import '../services/api_service.dart';
+import '../../../services/api_service.dart';
 
 
 class DataProvider with ChangeNotifier {
