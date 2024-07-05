@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/constants/colors.dart';
-import '../../viewmodel/data_provider.dart';
 import '../../models/character_model.dart';
 import '../../models/location_model.dart';
+import '../../../../core/helpers/local_storage_helper.dart';
+import '../../viewmodel/data_provider.dart';
 
 class LocationCard extends StatefulWidget {
   final Location location;
@@ -16,6 +17,8 @@ class LocationCard extends StatefulWidget {
 
 class _LocationCardState extends State<LocationCard> {
   List<CharacterModel> charactersInLocation = [];
+  bool isFollowed = false;
+  final localStorageHelper = LocalStorageHelper();
 
   @override
   void initState() {
@@ -31,6 +34,7 @@ class _LocationCardState extends State<LocationCard> {
     setState(() {});
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -44,14 +48,14 @@ class _LocationCardState extends State<LocationCard> {
         child: ExpansionTile(
           title: Text(widget.location.name),
           leading: const Icon(Icons.location_on),
-          children: charactersInLocation
-              .map((character) => ListTile(
-            leading: CircleAvatar(
-              backgroundImage: NetworkImage(character.image),
-            ),
-            title: Text(character.name),
-          ))
-              .toList(),
+          children: [
+            ...charactersInLocation.map((character) => ListTile(
+              leading: CircleAvatar(
+                backgroundImage: NetworkImage(character.image),
+              ),
+              title: Text(character.name),
+            )),
+          ],
         ),
       ),
     );

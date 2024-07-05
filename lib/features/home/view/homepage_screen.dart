@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:rick_and_morty/features/home/view/widget/character_list.dart';
-import 'package:rick_and_morty/features/home/view/widget/location_list.dart';
-
-import 'shared_scaffold.dart';
+import 'widget/character_list.dart';
+import 'widget/location_list.dart';
 import '../../followed/view/followed_screen.dart';
+import 'shared_scaffold.dart';
 
 class MyHomePage extends StatefulWidget {
   final String title;

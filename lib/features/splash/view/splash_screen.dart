@@ -1,20 +1,18 @@
-// view/splash_screen.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:video_player/video_player.dart';
+import 'package:go_router/go_router.dart';
 import '../viewmodel/splash_screen_view_model.dart';
-import '../../home/view/homepage_screen.dart';
+import 'package:video_player/video_player.dart';
 
 class SplashScreen extends StatelessWidget {
+  const SplashScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => SplashScreenViewModel(
         onVideoEnd: () {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => MyHomePage(title: 'Rick & Morty')),
-          );
+          context.go('/home'); // Use GoRouter for navigation
         },
       ),
       child: Consumer<SplashScreenViewModel>(
@@ -30,6 +28,12 @@ class SplashScreen extends StatelessWidget {
                 )
                     : Container(
                   color: Colors.black,
+                  child: const Center(
+                    child: Text(
+                      'Initializing video...',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
                 ),
               ],
             ),

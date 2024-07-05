@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../followed/view/followed_screen.dart';
-
 class SharedScaffold extends StatefulWidget {
   final Widget body;
   final int currentIndex;
 
-  const SharedScaffold({Key? key, required this.body, required this.currentIndex}) : super(key: key);
+  const SharedScaffold({super.key, required this.body, required this.currentIndex});
 
   @override
   _SharedScaffoldState createState() => _SharedScaffoldState();
@@ -17,7 +15,7 @@ class _SharedScaffoldState extends State<SharedScaffold> {
   void _onItemTapped(int index) {
     switch (index) {
       case 0:
-        GoRouter.of(context).go('/characters');
+        GoRouter.of(context).go('/home');
         break;
       case 1:
         GoRouter.of(context).go('/locations');

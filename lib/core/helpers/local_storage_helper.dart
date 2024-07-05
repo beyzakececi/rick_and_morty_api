@@ -1,4 +1,3 @@
-// lib/core/helpers/local_storage_helper.dart
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorageHelper {
