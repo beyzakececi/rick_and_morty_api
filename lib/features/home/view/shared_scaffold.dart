@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:rick_and_morty/features/home/view/widget/search_bar_custom.dart';
+
+import '../viewmodel/data_provider.dart';
 
 class SharedScaffold extends StatefulWidget {
   final Widget body;
@@ -28,9 +32,16 @@ class _SharedScaffoldState extends State<SharedScaffold> {
 
   @override
   Widget build(BuildContext context) {
+
+    final dataProvider = Provider.of<DataProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('App Title'),
+        title: const Text('Rick and Morty'),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(56.0),
+          child: SearchBarCustom(dataProvider: dataProvider),
+        ),
       ),
       body: widget.body,
       bottomNavigationBar: BottomNavigationBar(

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../features/followed/view/followed_screen.dart';
 import '../features/home/view/homepage_screen.dart';

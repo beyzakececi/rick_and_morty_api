@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../../viewmodel/data_provider.dart';
 
 class SearchBarCustom extends StatelessWidget {
   final DataProvider dataProvider;
 
-  const SearchBarCustom({Key? key, required this.dataProvider}) : super(key: key);
+  const SearchBarCustom({super.key, required this.dataProvider});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +21,7 @@ class SearchBarCustom extends StatelessWidget {
               child: TextField(
                 decoration: const InputDecoration(
                   hintText: 'Search...',
-                  hintStyle: TextStyle(color: Colors.white70),
+                  hintStyle: TextStyle(color: Colors.brown),
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.symmetric(horizontal: 8.0),
                 ),
