@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../core/helpers/local_storage_helper.dart';
 import '../../home/view/shared_scaffold.dart';
+import '../../home/viewmodel/data_provider.dart';
+import '../../home/models/character_model.dart';
+import '../../../core/constants/colors.dart';  // Make sure to import your color constants
 
 class FollowedScreen extends StatefulWidget {
   @override
@@ -25,6 +29,7 @@ class _FollowedScreenState extends State<FollowedScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final dataProvider = Provider.of<DataProvider>(context);
     return SharedScaffold(
       body: FutureBuilder<List<String>>(
         future: _followedCharacters,
@@ -36,19 +41,33 @@ class _FollowedScreenState extends State<FollowedScreen> {
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return Center(child: Text('No followed characters found.'));
           } else {
-            final characters = snapshot.data!;
+            final followedCharacterNames = snapshot.data!;
+            final followedCharacters = dataProvider.characters
+                .where((character) => followedCharacterNames.contains(character.name))
+                .toList();
+
             return ListView.builder(
-              itemCount: characters.length,
+              itemCount: followedCharacters.length,
               itemBuilder: (context, index) {
-                final character = characters[index];
-                return ListTile(
-                  title: Text(character),
-                  trailing: IconButton(
-                    icon: Icon(Icons.remove_circle),
-                    onPressed: () async {
-                      await localStorageHelper.removeFollowedCharacter(character);
-                      _fetchFollowedCharacters();
-                    },
+                final character = followedCharacters[index];
+                return Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: RickAndMortyColors.yellow, width: 4),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  margin: const EdgeInsets.all(10),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundImage: NetworkImage(character.image),
+                    ),
+                    title: Text(character.name),
+                    trailing: IconButton(
+                      icon: Icon(Icons.remove_circle),
+                      onPressed: () async {
+                        await localStorageHelper.removeFollowedCharacter(character.name);
+                        _fetchFollowedCharacters();
+                      },
+                    ),
                   ),
                 );
               },
