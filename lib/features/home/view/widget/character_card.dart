@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/constants/colors.dart';
 import '../../models/character_model.dart';
+import '../../../../core/helpers/local_storage_helper.dart';
 
 class CharacterCard extends StatefulWidget {
   final CharacterModel character;
@@ -14,11 +14,33 @@ class CharacterCard extends StatefulWidget {
 
 class _CharacterCardState extends State<CharacterCard> {
   bool isFollowed = false;
+  final localStorageHelper = LocalStorageHelper();
 
-  void toggleFollow() {
+  @override
+  void initState() {
+    super.initState();
+    _checkIfFollowed();
+  }
+
+  void _checkIfFollowed() async {
+    List<String> followedCharacters = await localStorageHelper.getFollowedCharacters();
+    setState(() {
+      isFollowed = followedCharacters.contains(widget.character.name);
+    });
+  }
+
+  void toggleFollow() async {
+    if (isFollowed) {
+      await localStorageHelper.removeFollowedCharacter(widget.character.name);
+    } else {
+      await localStorageHelper.addFollowedCharacter(widget.character.name);
+    }
     setState(() {
       isFollowed = !isFollowed;
     });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(isFollowed ? '${widget.character.name} followed!' : '${widget.character.name} unfollowed!')),
+    );
   }
 
   @override
@@ -58,10 +80,8 @@ class _CharacterCardState extends State<CharacterCard> {
                   buildInfoRow('Status', widget.character.status),
                   buildInfoRow('Species', widget.character.species),
                   buildInfoRow('Gender', widget.character.gender),
-                  buildInfoRow('Episode count',
-                      widget.character.episode.length.toString()),
-                  buildInfoRow(
-                      'Created', widget.character.created.substring(0, 10)),
+                  buildInfoRow('Episode count', widget.character.episode.length.toString()),
+                  buildInfoRow('Created', widget.character.created.substring(0, 10)),
                 ],
               ),
               Positioned(
@@ -70,9 +90,7 @@ class _CharacterCardState extends State<CharacterCard> {
                 child: ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(
-                      isFollowed
-                          ? RickAndMortyColors.green
-                          : RickAndMortyColors.peach,
+                      isFollowed ? RickAndMortyColors.green : RickAndMortyColors.peach,
                     ),
                   ),
                   onPressed: toggleFollow,
