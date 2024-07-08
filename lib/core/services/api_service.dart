@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../features/home/models/character_model.dart';
-import '../features/home/models/location_model.dart';
-import '../core/constants/constants.dart';
+
+import '../../features/character/models/character_model.dart';
+import '../../features/locations/models/location_model.dart';
+import '../constants/constants.dart';
 
 class ApiService {
 

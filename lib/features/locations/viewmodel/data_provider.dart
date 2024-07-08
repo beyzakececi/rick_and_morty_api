@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import '../models/character_model.dart';
+import '../../../core/services/api_service.dart';
+import '../../character/models/character_model.dart';
 import '../models/location_model.dart';
-import '../../../services/api_service.dart';
-
 
 class DataProvider with ChangeNotifier {
   final ApiService apiService = ApiService();

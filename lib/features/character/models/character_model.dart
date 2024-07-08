@@ -1,6 +1,7 @@
 
-import 'character_location_model.dart';
-import 'origin_model.dart';
+
+import '../../locations/models/character_location_model.dart';
+import '../../locations/models/origin_model.dart';
 
 class CharacterModel {
   final int id;
@@ -48,5 +49,4 @@ class CharacterModel {
     );
   }
 }
-
 

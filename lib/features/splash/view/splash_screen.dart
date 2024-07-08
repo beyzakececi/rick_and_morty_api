@@ -12,11 +12,23 @@ class SplashScreen extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => SplashScreenViewModel(
         onVideoEnd: () {
-          context.go('/home'); // Use GoRouter for navigation
+          context.go('/characters'); // Use GoRouter for navigation
         },
       ),
       child: Consumer<SplashScreenViewModel>(
         builder: (context, model, child) {
+          if (model.isError) {
+            return Scaffold(
+              body: Center(
+                child: Text(
+                  'Error loading video',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+              backgroundColor: Colors.black,
+            );
+          }
+
           return Scaffold(
             body: Stack(
               fit: StackFit.expand,

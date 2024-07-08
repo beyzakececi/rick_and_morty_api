@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/constants/colors.dart';
-import '../../models/character_model.dart';
+import '../../../character/models/character_model.dart';
 import '../../models/location_model.dart';
 import '../../../../core/helpers/local_storage_helper.dart';
 import '../../viewmodel/data_provider.dart';
