@@ -36,9 +36,6 @@ class CharacterCard extends StatelessWidget {
             }
           },
         ),
-        onTap: () {
-          context.push('/characterDetail', extra: character);
-        },
       ),
     );
   }

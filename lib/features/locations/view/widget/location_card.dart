@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/constants/colors.dart';
+import '../../../../core/localdb/hive_manager.dart';
 import '../../../character/models/character_model.dart';
 import '../../models/location_model.dart';
-import '../../../../core/helpers/local_storage_helper.dart';
 import '../../viewmodel/data_provider.dart';
 
 class LocationCard extends StatefulWidget {
-  final Location location;
+  final LocationModel location;
 
   const LocationCard({required this.location});
 
@@ -18,22 +18,39 @@ class LocationCard extends StatefulWidget {
 class _LocationCardState extends State<LocationCard> {
   List<CharacterModel> charactersInLocation = [];
   bool isFollowed = false;
-  final localStorageHelper = LocalStorageHelper();
+  final HiveManager _hiveManager = HiveManager();
 
   @override
   void initState() {
     super.initState();
     _fetchCharacters();
+    _checkIfFollowed();
   }
 
-  void _fetchCharacters() async {
+  void _fetchCharacters() {
     final dataProvider = Provider.of<DataProvider>(context, listen: false);
     charactersInLocation = dataProvider.characters
         .where((character) => character.location.name == widget.location.name)
         .toList();
-    setState(() {});
   }
 
+  Future<void> _checkIfFollowed() async {
+    final followedLocations = await _hiveManager.getFollowedItems('locations');
+    setState(() {
+      isFollowed = followedLocations.contains(widget.location.name);
+    });
+  }
+
+  Future<void> _toggleFollow() async {
+    if (isFollowed) {
+      await _hiveManager.removeFollow(widget.location.name, 'locations');
+    } else {
+      await _hiveManager.addFollow(widget.location.name, 'locations');
+    }
+    setState(() {
+      isFollowed = !isFollowed;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +61,21 @@ class _LocationCardState extends State<LocationCard> {
       ),
       margin: const EdgeInsets.all(10),
       child: Card(
-        elevation: 0, // Kartın gölgesini kaldırmak için
+        elevation: 0,
         child: ExpansionTile(
-          title: Text(widget.location.name),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(widget.location.name),
+              IconButton(
+                icon: Icon(
+                  isFollowed ? Icons.favorite : Icons.favorite_border,
+                  color: isFollowed ? Colors.red : Colors.grey,
+                ),
+                onPressed: _toggleFollow,
+              ),
+            ],
+          ),
           leading: const Icon(Icons.location_on),
           children: [
             ...charactersInLocation.map((character) => ListTile(

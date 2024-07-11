@@ -1,4 +1,4 @@
-class Location {
+class LocationModel {
   final int id;
   final String name;
   final String type;
@@ -7,7 +7,7 @@ class Location {
   final String url;
   final String created;
 
-  Location({
+  LocationModel({
     required this.id,
     required this.name,
     required this.type,
@@ -17,8 +17,8 @@ class Location {
     required this.created,
   });
 
-  factory Location.fromJson(Map<String, dynamic> json) {
-    return Location(
+  factory LocationModel.fromJson(Map<String, dynamic> json) {
+    return LocationModel(
       id: json['id'],
       name: json['name'],
       type: json['type'],

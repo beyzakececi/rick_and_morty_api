@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import '../../models/character_model.dart';
 
 class CharacterDetailScreen extends StatelessWidget {
   final CharacterModel character;
 
-  const CharacterDetailScreen({Key? key, required this.character}) : super(key: key);
+  const CharacterDetailScreen({super.key, required this.character});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +14,7 @@ class CharacterDetailScreen extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            context.pop();
+            Navigator.of(context).pop();
           },
         ),
       ),
@@ -27,7 +26,12 @@ class CharacterDetailScreen extends StatelessWidget {
             Center(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
-                child: Image.network(character.image, height: 300, width: 300, fit: BoxFit.cover),
+                child: Image.network(
+                  character.image,
+                  height: 300,
+                  width: 300,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             const SizedBox(height: 24),

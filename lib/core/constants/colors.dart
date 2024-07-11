@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
-class RickAndMortyColors {
+final class RickAndMortyColors {
+
+  RickAndMortyColors._(); //close constructor
+
   static const Color brown = Color(0xFF44281D);
   static const Color peach = Color(0xFFE4A788);
   static const Color yellow = Color(0xFFF0E14A);

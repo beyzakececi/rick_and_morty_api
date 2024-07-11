@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
-import '../../../core/helpers/local_storage_helper.dart';
-import '../../../core/services/api_service.dart';
+import '../../../core/localdb/hive_manager.dart';
+import '../../../core/services/api_service_manager.dart';
 import '../models/character_model.dart';
 
 class CharacterViewModel extends ChangeNotifier {
-  final ApiService _apiService = ApiService();
-  final LocalStorageHelper _localStorageHelper = LocalStorageHelper();
+  final FetchManager _fetchManager = FetchManager();
+  final HiveManager _hiveManager = HiveManager();
 
   List<CharacterModel> _characters = [];
   List<String> _followedCharacters = [];
@@ -15,23 +15,24 @@ class CharacterViewModel extends ChangeNotifier {
 
   Future<void> fetchCharacters() async {
     try {
-      _characters = await _apiService.fetchCharacters();
-      _followedCharacters = await _localStorageHelper.getFollowedCharacters();
+      _characters = await _fetchManager.fetchCharacters();
+      _followedCharacters = await _hiveManager.getFollowedItems('characters');
       notifyListeners();
     } catch (e) {
       // Handle error
+      print('Failed to fetch characters: $e');
     }
   }
 
   Future<void> addFollowedCharacter(String name) async {
-    await _localStorageHelper.addFollowedCharacter(name);
-    _followedCharacters = await _localStorageHelper.getFollowedCharacters();
+    await _hiveManager.addFollow(name, 'characters');
+    _followedCharacters = await _hiveManager.getFollowedItems('characters');
     notifyListeners();
   }
 
   Future<void> removeFollowedCharacter(String name) async {
-    await _localStorageHelper.removeFollowedCharacter(name);
-    _followedCharacters = await _localStorageHelper.getFollowedCharacters();
+    await _hiveManager.removeFollow(name, 'characters');
+    _followedCharacters = await _hiveManager.getFollowedItems('characters');
     notifyListeners();
   }
 
