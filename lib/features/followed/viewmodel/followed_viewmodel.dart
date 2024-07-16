@@ -1,31 +1,33 @@
 import 'package:flutter/material.dart';
 import '../../../core/localdb/hive_manager.dart';
-import '../../../core/services/api_service_manager.dart';
+import '../../character/services/character_service.dart';
+import '../../locations/services/location_service.dart';
 import '../../character/models/character_model.dart';
-import '../../locations/models/location_model.dart'; // Import LocationModel
+import '../../locations/models/location_model.dart';
 
 class FollowedViewModel extends ChangeNotifier {
   final HiveManager _hiveManager = HiveManager();
-  final FetchManager _fetchManager = FetchManager();
+  final CharacterService _characterService = CharacterService();
+  final LocationService _locationService = LocationService();
+
   List<CharacterModel> _followedCharacters = [];
-  List<LocationModel> _followedLocations = []; // List for followed locations
+  List<LocationModel> _followedLocations = [];
 
   List<CharacterModel> get followedCharacters => _followedCharacters;
   List<LocationModel> get followedLocations => _followedLocations;
 
   FollowedViewModel() {
     loadFollowedCharacters();
-    loadFollowedLocations(); // Load followed locations
+    loadFollowedLocations();
   }
 
   Future<void> loadFollowedCharacters() async {
     try {
       final followedNames = await _hiveManager.getFollowedItems('characters');
-      final allCharacters = await _fetchManager.fetchCharacters();
+      final allCharacters = await _characterService.fetchCharacters();
       _followedCharacters = allCharacters.where((character) => followedNames.contains(character.name)).toList();
       notifyListeners();
     } catch (e) {
-      // Handle error
       print('Failed to load followed characters: $e');
     }
   }
@@ -33,11 +35,10 @@ class FollowedViewModel extends ChangeNotifier {
   Future<void> loadFollowedLocations() async {
     try {
       final followedNames = await _hiveManager.getFollowedItems('locations');
-      final allLocations = await _fetchManager.fetchLocations(); // Assuming FetchManager has a method to fetch locations
+      final allLocations = await _locationService.fetchLocations();
       _followedLocations = allLocations.where((location) => followedNames.contains(location.name)).toList();
       notifyListeners();
     } catch (e) {
-      // Handle error
       print('Failed to load followed locations: $e');
     }
   }

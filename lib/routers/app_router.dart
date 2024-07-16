@@ -20,7 +20,7 @@ final GoRouter router = GoRouter(
     ShellRoute(
       navigatorKey: _shellNavigatorKey,
       builder: (context, state, child) {
-        return ScaffoldWithNavBar(location: state.uri.toString(), child: child);
+        return ScaffoldWithNavBar(child: child);
       },
       routes: [
         GoRoute(
@@ -49,5 +49,4 @@ final GoRouter router = GoRouter(
     ),
   ],
 );
-
 

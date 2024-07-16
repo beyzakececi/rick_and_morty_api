@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import '../../../core/localdb/hive_manager.dart';
-import '../../../core/services/api_service_manager.dart';
+import '../../../features/character/services/character_service.dart';
 import '../models/character_model.dart';
 
 class CharacterViewModel extends ChangeNotifier {
-  final FetchManager _fetchManager = FetchManager();
   final HiveManager _hiveManager = HiveManager();
+  final CharacterService _characterService = CharacterService();
 
   List<CharacterModel> _characters = [];
   List<String> _followedCharacters = [];
@@ -15,7 +15,7 @@ class CharacterViewModel extends ChangeNotifier {
 
   Future<void> fetchCharacters() async {
     try {
-      _characters = await _fetchManager.fetchCharacters();
+      _characters = await _characterService.fetchCharacters();
       _followedCharacters = await _hiveManager.getFollowedItems('characters');
       notifyListeners();
     } catch (e) {

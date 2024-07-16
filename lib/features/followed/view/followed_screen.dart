@@ -12,15 +12,12 @@ class FollowedScreen extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => FollowedViewModel(),
       child: Scaffold(
-        appBar: AppBar(
-          title: Text('Followed'),
-        ),
         body: Consumer<FollowedViewModel>(
           builder: (context, followedViewModel, child) {
             return ListView(
               children: [
                 ListTile(
-                  title: Text('Followed Characters'),
+                  title: Text('Followed Characters', style: TextStyle(color: Colors.black, fontSize: 20)),
                 ),
                 ListView.builder(
                   shrinkWrap: true,
@@ -37,7 +34,7 @@ class FollowedScreen extends StatelessWidget {
                   },
                 ),
                 ListTile(
-                  title: Text('Followed Locations'),
+                  title: Text('Followed Locations', style: TextStyle(color: Colors.black, fontSize: 20)),
                 ),
                 ListView.builder(
                   shrinkWrap: true,

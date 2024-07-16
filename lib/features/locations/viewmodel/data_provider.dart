@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import '../../../core/services/api_service_manager.dart';
+import '../../character/services/character_service.dart';
+import '../../locations/services/location_service.dart';
 import '../../character/models/character_model.dart';
-import '../models/location_model.dart';
+import '../../locations/models/location_model.dart';
 
 class DataProvider with ChangeNotifier {
-  final FetchManager fetchManager = FetchManager();
+  final CharacterService _characterService = CharacterService();
+  final LocationService _locationService = LocationService();
+
   List<CharacterModel> _allCharacters = [];
   List<LocationModel> _allLocations = [];
   List<CharacterModel> _characters = [];
@@ -24,15 +27,16 @@ class DataProvider with ChangeNotifier {
     notifyListeners();
 
     try {
-      final charactersData = await fetchManager.fetchCharacters();
+      final charactersData = await _characterService.fetchCharacters();
       _allCharacters = charactersData;
       _characters = charactersData;
 
-      final locationsData = await fetchManager.fetchLocations();
+      final locationsData = await _locationService.fetchLocations();
       _allLocations = locationsData;
       _locations = locationsData;
     } catch (e) {
       // Handle error
+      print('Error fetching data: $e');
     }
 
     _isLoading = false;

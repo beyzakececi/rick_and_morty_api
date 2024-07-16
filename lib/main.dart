@@ -23,6 +23,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => CharacterViewModel()),
         ChangeNotifierProvider(create: (_) => LocationViewModel()),
         ChangeNotifierProvider(create: (_) => FollowedViewModel()),
+
       ],
       child: const MyApp(),
     ),
