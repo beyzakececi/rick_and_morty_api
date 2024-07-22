@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import '../../../core/localdb/hive_manager.dart';
+import '../../../product/localdb/hive_manager.dart';
 import '../../../features/character/services/character_service.dart';
 import '../models/character_model.dart';
 

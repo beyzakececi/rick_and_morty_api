@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/localdb/hive_manager.dart';
+import '../../../product/localdb/hive_manager.dart';
 import '../../character/services/character_service.dart';
 import '../../locations/services/location_service.dart';
 import '../../character/models/character_model.dart';

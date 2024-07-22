@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../../core/constants/colors.dart';
-import '../../../../core/localdb/hive_manager.dart';
+import '../../../../product/constants/colors.dart';
+import '../../../../product/localdb/hive_manager.dart';
 import '../../../character/models/character_model.dart';
 import '../../models/location_model.dart';
 import '../../viewmodel/data_provider.dart';

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../features/character/view/screens/character_list_screen.dart';
-import '../features/character/view/screens/character_detail_screen.dart';
-import '../features/locations/view/screens/location_list_screen.dart';
-import '../features/followed/view/followed_screen.dart';
-import '../features/shared/view/widgets/scaffold_with_nav_bar.dart';
-import '../features/splash/view/splash_screen.dart';
-import '../features/character/models/character_model.dart';
+import '../../features/character/view/screens/character_list_screen.dart';
+import '../../features/character/view/screens/character_detail_screen.dart';
+import '../../features/locations/view/screens/location_list_screen.dart';
+import '../../features/followed/view/followed_screen.dart';
+import '../../features/shared/view/widgets/scaffold_with_nav_bar.dart';
+import '../../features/splash/view/splash_screen.dart';
+import '../../features/character/models/character_model.dart';
 
 final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -28,7 +28,6 @@ final GoRouter router = GoRouter(
           builder: (context, state) => const CharacterListScreen(),
           routes: [
             GoRoute(
-              //id: 'character-detail',
               path: 'character-detail/:id',
               builder: (context, state) {
                 final character = state.extra as CharacterModel;

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:hive_flutter/hive_flutter.dart'; // Hive için import edilmiştir.
 import 'features/locations/viewmodel/data_provider.dart';
 import 'features/locations/viewmodel/location_viewmodel.dart';
-import 'routers/app_router.dart';
+import 'product/routers/app_router.dart';
 import 'features/character/viewmodel/character_viewmodel.dart';
 import 'features/followed/viewmodel/followed_viewmodel.dart';
 

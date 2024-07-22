@@ -4,7 +4,7 @@ import '../../../character/viewmodel/character_viewmodel.dart';
 import '../../../locations/models/location_model.dart';
 import '../../viewmodel/followed_viewmodel.dart';
 import '../../../character/models/character_model.dart';
-import '../../../../core/constants/colors.dart'; // Ensure correct import path
+import '../../../../product/constants/colors.dart'; // Ensure correct import path
 
 class FollowedCard extends StatelessWidget {
   final CharacterModel? character;

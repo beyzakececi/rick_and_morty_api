@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../models/character_model.dart';
 import '../../viewmodel/character_viewmodel.dart';
-import '../../../../core/constants/colors.dart'; // Doğru yolu kontrol edin
+import '../../../../product/constants/colors.dart'; // Doğru yolu kontrol edin
 
 class CharacterCard extends StatelessWidget {
   final CharacterModel character;

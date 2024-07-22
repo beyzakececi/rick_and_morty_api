@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rick_and_morty/features/followed/view/widget/followed_card.dart';
-import '../../../../core/constants/colors.dart';
+import '../../../product/constants/colors.dart';
 import '../viewmodel/followed_viewmodel.dart'; // Ensure correct import path
 
 class FollowedScreen extends StatelessWidget {
