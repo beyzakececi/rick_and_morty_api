@@ -3,6 +3,6 @@ import '../models/location_model.dart';
 
 class LocationService with ServiceOperationMixin {
   Future<ListLocationModel> fetchLocations() async {
-    return get<ListLocationModel>('location', (json) => ListLocationModel.fromJson(json));
+    return fetch<ListLocationModel>('location', (json) => ListLocationModel.fromJson(json), NetworkConstant.GET);
   }
 }

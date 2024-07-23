@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../locations/models/location_model.dart';
-import '../../../character/models/character_model.dart';
+
 import '../../../../product/constants/colors.dart'; // Ensure correct import path
+import '../../../character/models/character_model.dart';
+import '../../../locations/models/location_model.dart';
 
 class FollowedCard extends StatelessWidget {
   final CharacterModel? character;
@@ -27,7 +28,15 @@ class FollowedCard extends StatelessWidget {
       margin: const EdgeInsets.all(10),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundImage: NetworkImage(isCharacter ? character!.image : location!.url),
+          backgroundImage: isCharacter && character!.image.isNotEmpty
+              ? NetworkImage(character!.image)
+              : null,
+          child: isCharacter && character!.image.isNotEmpty
+              ? null
+              : Text(
+                  isCharacter ? character!.name[0] : location!.name[0],
+                  style: TextStyle(fontSize: 24),
+                ),
         ),
         title: Text(isCharacter ? character!.name : location!.name),
         trailing: IconButton(
