@@ -33,10 +33,7 @@ class FollowedCard extends StatelessWidget {
               : null,
           child: isCharacter && character!.image.isNotEmpty
               ? null
-              : Text(
-                  isCharacter ? character!.name[0] : location!.name[0],
-                  style: TextStyle(fontSize: 24),
-                ),
+              : const Icon(Icons.location_on),
         ),
         title: Text(isCharacter ? character!.name : location!.name),
         trailing: IconButton(
