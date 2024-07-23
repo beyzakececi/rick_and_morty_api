@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../models/character_model.dart';
 import '../../viewmodel/character_viewmodel.dart';
-import '../../../../product/constants/colors.dart'; // Doğru yolu kontrol edin
 
 class CharacterCard extends StatelessWidget {
   final CharacterModel character;
 
-  const CharacterCard({Key? key, required this.character}) : super(key: key);
+  const CharacterCard({super.key, required this.character});
 
   @override
   Widget build(BuildContext context) {
@@ -90,9 +89,9 @@ class CharacterCard extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 8),
-                  Text(
+                  const Text(
                     'Last known location:',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.grey,
                       fontSize: 12,
                     ),
@@ -105,9 +104,9 @@ class CharacterCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Text(
+                  const Text(
                     'First seen in:',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.grey,
                       fontSize: 12,
                     ),

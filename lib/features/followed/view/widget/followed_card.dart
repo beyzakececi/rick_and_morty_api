@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../../character/viewmodel/character_viewmodel.dart';
 import '../../../locations/models/location_model.dart';
-import '../../viewmodel/followed_viewmodel.dart';
 import '../../../character/models/character_model.dart';
 import '../../../../product/constants/colors.dart'; // Ensure correct import path
 
@@ -13,12 +10,12 @@ class FollowedCard extends StatelessWidget {
   final VoidCallback? onRemove;
 
   const FollowedCard({
-    Key? key,
+    super.key,
     this.character,
     this.location,
     required this.isCharacter,
     this.onRemove,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

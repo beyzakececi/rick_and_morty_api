@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../../locations/viewmodel/data_provider.dart';
 import '../../../shared/view/widgets/search_bar_custom.dart';
+import '../../models/character_model.dart';
 import '../widgets/character_card.dart';
 
 class CharacterListScreen extends StatefulWidget {
@@ -19,9 +20,12 @@ class _CharacterListScreenState extends State<CharacterListScreen> {
   Widget build(BuildContext context) {
     final dataProvider = Provider.of<DataProvider>(context);
     final filteredCharacters = showAliveOnly
-        ? dataProvider.characters.where((char) => char.status.toLowerCase() == 'alive').toList()
-        : dataProvider.characters;
-
+        ? dataProvider.characters.results
+        .where((character) => character.status == 'Alive')
+        .toList() as List<CharacterModel>
+        : dataProvider.characters.results as List<CharacterModel>;
+    print('character');
+    print(filteredCharacters);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(50.0),

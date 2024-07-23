@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'package:provider/provider.dart';
 import 'package:hive_flutter/hive_flutter.dart'; // Hive için import edilmiştir.
+import 'package:provider/provider.dart';
+
+import 'features/character/viewmodel/character_viewmodel.dart';
+import 'features/followed/viewmodel/followed_viewmodel.dart';
 import 'features/locations/viewmodel/data_provider.dart';
 import 'features/locations/viewmodel/location_viewmodel.dart';
 import 'product/routers/app_router.dart';
-import 'features/character/viewmodel/character_viewmodel.dart';
-import 'features/followed/viewmodel/followed_viewmodel.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

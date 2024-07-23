@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rick_and_morty/product/localdb/operations.dart';
 import '../../../product/localdb/hive_manager.dart';
 import '../../character/services/character_service.dart';
 import '../../locations/services/location_service.dart';
@@ -7,14 +8,15 @@ import '../../locations/models/location_model.dart';
 
 class FollowedViewModel extends ChangeNotifier {
   final HiveManager _hiveManager = HiveManager();
+  final HiveOperations _hiveOperations = HiveOperations();
   final CharacterService _characterService = CharacterService();
   final LocationService _locationService = LocationService();
 
-  List<CharacterModel> _followedCharacters = [];
-  List<LocationModel> _followedLocations = [];
+  ListCharacterModel _followedCharacters = ListCharacterModel(results:[]);
+  ListLocationModel _followedLocations = ListLocationModel(results:[]);
 
-  List<CharacterModel> get followedCharacters => _followedCharacters;
-  List<LocationModel> get followedLocations => _followedLocations;
+  ListCharacterModel get followedCharacters => _followedCharacters;
+  ListLocationModel get followedLocations => _followedLocations;
 
   FollowedViewModel() {
     loadFollowedCharacters();
@@ -23,9 +25,9 @@ class FollowedViewModel extends ChangeNotifier {
 
   Future<void> loadFollowedCharacters() async {
     try {
-      final followedNames = await _hiveManager.getFollowedItems('characters');
+      final followedNames = await _hiveOperations.getFollowedItems('characters');
       final allCharacters = await _characterService.fetchCharacters();
-      _followedCharacters = allCharacters.where((character) => followedNames.contains(character.name)).toList();
+      _followedCharacters = ListCharacterModel(results:allCharacters.results.where((character) => followedNames.contains(character.name)).toList());
       notifyListeners();
     } catch (e) {
       print('Failed to load followed characters: $e');
@@ -34,9 +36,9 @@ class FollowedViewModel extends ChangeNotifier {
 
   Future<void> loadFollowedLocations() async {
     try {
-      final followedNames = await _hiveManager.getFollowedItems('locations');
+      final followedNames = await _hiveOperations.getFollowedItems('locations');
       final allLocations = await _locationService.fetchLocations();
-      _followedLocations = allLocations.where((location) => followedNames.contains(location.name)).toList();
+      _followedLocations = ListLocationModel(results:allLocations.results.where((location) => followedNames.contains(location.name)).toList());
       notifyListeners();
     } catch (e) {
       print('Failed to load followed locations: $e');
@@ -45,13 +47,13 @@ class FollowedViewModel extends ChangeNotifier {
 
   Future<void> removeFollowedCharacter(String name) async {
     await _hiveManager.removeFollow(name, 'characters');
-    _followedCharacters.removeWhere((character) => character.name == name);
+    _followedCharacters.results.removeWhere((character) => character.name == name);
     notifyListeners();
   }
 
   Future<void> removeFollowedLocation(String name) async {
     await _hiveManager.removeFollow(name, 'locations');
-    _followedLocations.removeWhere((location) => location.name == name);
+    _followedLocations.results.removeWhere((location) => location.name == name);
     notifyListeners();
   }
 }

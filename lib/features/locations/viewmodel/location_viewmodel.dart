@@ -4,9 +4,9 @@ import '../models/location_model.dart';
 
 class LocationViewModel extends ChangeNotifier {
   final LocationService _locationService = LocationService();
-  List<LocationModel> _locations = [];
+  ListLocationModel _locations = ListLocationModel(results:[]);
 
-  List<LocationModel> get locations => _locations;
+  ListLocationModel get locations => _locations;
 
   LocationViewModel() {
     fetchLocations();

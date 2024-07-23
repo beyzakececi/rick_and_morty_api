@@ -1,8 +1,10 @@
+import 'package:json_annotation/json_annotation.dart';
+import 'package:rick_and_morty/features/locations/models/character_location_model.dart';
+import 'package:rick_and_morty/features/locations/models/origin_model.dart';
 
+part 'character_model.g.dart';
 
-import '../../locations/models/character_location_model.dart';
-import '../../locations/models/origin_model.dart';
-
+@JsonSerializable()
 class CharacterModel {
   final int id;
   final String name;
@@ -10,8 +12,10 @@ class CharacterModel {
   final String species;
   final String type;
   final String gender;
-  final Origin origin;
-  final CharacterLocation location;
+
+  Origin origin;
+  CharacterLocation location;
+
   final String image;
   final List<String> episode;
   final String url;
@@ -32,21 +36,23 @@ class CharacterModel {
     required this.created,
   });
 
-  factory CharacterModel.fromJson(Map<String, dynamic> json) {
-    return CharacterModel(
-      id: json['id'],
-      name: json['name'],
-      status: json['status'],
-      species: json['species'],
-      type: json['type'],
-      gender: json['gender'],
-      origin: Origin.fromJson(json['origin']),
-      location: CharacterLocation.fromJson(json['location']),
-      image: json['image'],
-      episode: List<String>.from(json['episode']),
-      url: json['url'],
-      created: json['created'],
-    );
-  }
+  factory CharacterModel.fromJson(Map<String, dynamic> json) =>
+      _$CharacterModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CharacterModelToJson(this);
 }
 
+
+@JsonSerializable()
+class ListCharacterModel {
+  final List<CharacterModel> results;
+
+  ListCharacterModel({
+    required this.results,
+  });
+
+  factory ListCharacterModel.fromJson(Map<String, dynamic> json) =>
+      _$ListCharacterModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ListCharacterModelToJson(this);
+}

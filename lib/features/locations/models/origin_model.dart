@@ -1,3 +1,9 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'origin_model.g.dart';
+
+
+@JsonSerializable()
 class Origin {
   final String name;
   final String url;

@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
-import '../../character/services/character_service.dart';
-import '../../locations/services/location_service.dart';
+
 import '../../character/models/character_model.dart';
+import '../../character/services/character_service.dart';
 import '../../locations/models/location_model.dart';
+import '../../locations/services/location_service.dart';
 
 class DataProvider with ChangeNotifier {
   final CharacterService _characterService = CharacterService();
   final LocationService _locationService = LocationService();
 
-  List<CharacterModel> _allCharacters = [];
-  List<LocationModel> _allLocations = [];
-  List<CharacterModel> _characters = [];
-  List<LocationModel> _locations = [];
+  //initializing the list of characters
+  ListCharacterModel _allCharacters = ListCharacterModel(results: []);
+
+  ListLocationModel _allLocations = ListLocationModel(results: []);
+
+  ListCharacterModel _characters = ListCharacterModel(results: []);
+
+  ListLocationModel _locations = ListLocationModel(results: []);
+
   bool _isLoading = false;
 
-  List<CharacterModel> get characters => _characters;
-  List<LocationModel> get locations => _locations;
+  ListCharacterModel get characters => _characters;
+
+  ListLocationModel get locations => _locations;
+
   bool get isLoading => _isLoading;
 
   DataProvider() {
@@ -48,14 +56,17 @@ class DataProvider with ChangeNotifier {
       _characters = _allCharacters;
       _locations = _allLocations;
     } else {
-      _characters = _allCharacters
-          .where((character) =>
-          character.name.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-      _locations = _allLocations
-          .where((location) =>
-          location.name.toLowerCase().contains(query.toLowerCase()))
-          .toList();
+      //change listlocationmodel
+      _characters = ListCharacterModel(
+          results: _allCharacters.results
+              .where((element) =>
+                  element.name.toLowerCase().contains(query.toLowerCase()))
+              .toList());
+      _locations = ListLocationModel(
+          results: _allLocations.results
+              .where((element) =>
+                  element.name.toLowerCase().contains(query.toLowerCase()))
+              .toList());
     }
     notifyListeners();
   }
