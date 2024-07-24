@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rick_and_morty/product/localdb/operations.dart';
+
 import '../../../../product/constants/colors.dart';
 import '../../../../product/localdb/hive_manager.dart';
 import '../../../character/models/character_model.dart';
@@ -21,6 +22,7 @@ class _LocationCardState extends State<LocationCard> {
   bool isFollowed = false;
   final HiveManager _hiveManager = HiveManager();
   final HiveOperations _hiveOperations = HiveOperations();
+
   @override
   void initState() {
     super.initState();
@@ -37,7 +39,7 @@ class _LocationCardState extends State<LocationCard> {
 
   Future<void> _checkIfFollowed() async {
     final followedLocations =
-        await _hiveOperations.getFollowedItems('locations');
+        await _hiveOperations.getFollowedItems(StorageKeys.LOCATION.name);
     setState(() {
       isFollowed = followedLocations.contains(widget.location.name);
     });
@@ -45,9 +47,11 @@ class _LocationCardState extends State<LocationCard> {
 
   Future<void> _toggleFollow() async {
     if (isFollowed) {
-      await _hiveManager.removeFollow(widget.location.name, 'locations');
+      await _hiveManager.removeItemFromList(widget.location.name,
+          StorageKeys.LOCATION, _hiveOperations.getFollowedItems);
     } else {
-      await _hiveManager.addFollow(widget.location.name, 'locations');
+      await _hiveManager.addItemToList(widget.location.name,
+          StorageKeys.LOCATION, _hiveOperations.getFollowedItems);
     }
     setState(() {
       isFollowed = !isFollowed;

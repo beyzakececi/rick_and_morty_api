@@ -12,10 +12,11 @@ class FollowedViewModel extends ChangeNotifier {
   final CharacterService _characterService = CharacterService();
   final LocationService _locationService = LocationService();
 
-  ListCharacterModel _followedCharacters = ListCharacterModel(results:[]);
-  ListLocationModel _followedLocations = ListLocationModel(results:[]);
+  ListCharacterModel _followedCharacters = ListCharacterModel(results: []);
+  ListLocationModel _followedLocations = ListLocationModel(results: []);
 
   ListCharacterModel get followedCharacters => _followedCharacters;
+
   ListLocationModel get followedLocations => _followedLocations;
 
   FollowedViewModel() {
@@ -25,9 +26,11 @@ class FollowedViewModel extends ChangeNotifier {
 
   Future<void> loadFollowedCharacters() async {
     try {
-      final followedNames = await _hiveOperations.getFollowedItems('characters');
+      final followedNames = await _hiveOperations.getFollowedItems(StorageKeys.CHARACTER.name);
       final allCharacters = await _characterService.fetchCharacters();
-      _followedCharacters = ListCharacterModel(results:allCharacters.results.where((character) => followedNames.contains(character.name)).toList());
+      _followedCharacters = ListCharacterModel(
+          results: allCharacters.results.where((character) =>
+              followedNames.contains(character.name)).toList());
       notifyListeners();
     } catch (e) {
       print('Failed to load followed characters: $e');
@@ -36,9 +39,11 @@ class FollowedViewModel extends ChangeNotifier {
 
   Future<void> loadFollowedLocations() async {
     try {
-      final followedNames = await _hiveOperations.getFollowedItems('locations');
+      final followedNames = await _hiveOperations.getFollowedItems(StorageKeys.LOCATION.name);
       final allLocations = await _locationService.fetchLocations();
-      _followedLocations = ListLocationModel(results:allLocations.results.where((location) => followedNames.contains(location.name)).toList());
+      _followedLocations = ListLocationModel(
+          results: allLocations.results.where((location) =>
+              followedNames.contains(location.name)).toList());
       notifyListeners();
     } catch (e) {
       print('Failed to load followed locations: $e');
@@ -46,13 +51,15 @@ class FollowedViewModel extends ChangeNotifier {
   }
 
   Future<void> removeFollowedCharacter(String name) async {
-    await _hiveManager.removeFollow(name, 'characters');
-    _followedCharacters.results.removeWhere((character) => character.name == name);
+    await _hiveManager.removeItemFromList(
+        name, StorageKeys.CHARACTER, _hiveOperations.getFollowedItems);
+    _followedCharacters.results.removeWhere((character) =>
+    character.name == name);
     notifyListeners();
   }
 
-  Future<void> removeFollowedLocation(String name) async {
-    await _hiveManager.removeFollow(name, 'locations');
+  Future<void> removeFollowedLocation(String name,) async {
+    await _hiveManager.removeItemFromList(name, StorageKeys.LOCATION, _hiveOperations.getFollowedItems);
     _followedLocations.results.removeWhere((location) => location.name == name);
     notifyListeners();
   }
