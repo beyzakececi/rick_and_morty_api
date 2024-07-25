@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../locations/viewmodel/data_provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../bloc/search_bloc.dart';
 
 class SearchBarCustom extends StatelessWidget {
-  final DataProvider dataProvider;
-
-  const SearchBarCustom({super.key, required this.dataProvider});
+  const SearchBarCustom({super.key, required String hintText});
 
   @override
   Widget build(BuildContext context) {
@@ -35,14 +34,17 @@ class SearchBarCustom extends StatelessWidget {
                 ),
                 style: const TextStyle(color: Colors.white),
                 onChanged: (query) {
-                  dataProvider.search(query);
+                  context.read<SearchBloc>().add(SearchEvent(query));
                 },
               ),
             ),
           ),
           IconButton(
             icon: const Icon(Icons.search),
-            onPressed: () {},
+            onPressed: () {
+              final query = context.read<SearchBloc>().state;
+              context.read<SearchBloc>().add(SearchEvent(query));
+            },
           ),
         ],
       ),

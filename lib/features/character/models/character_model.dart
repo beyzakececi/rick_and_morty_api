@@ -51,8 +51,19 @@ class ListCharacterModel {
     required this.results,
   });
 
+  // Factory constructor to create a ListCharacterModel from JSON
   factory ListCharacterModel.fromJson(Map<String, dynamic> json) =>
       _$ListCharacterModelFromJson(json);
 
+  // Method to convert ListCharacterModel to JSON
   Map<String, dynamic> toJson() => _$ListCharacterModelToJson(this);
+
+  // CopyWith method to create a new instance with modified fields
+  ListCharacterModel copyWith({
+    List<CharacterModel>? results,
+  }) {
+    return ListCharacterModel(
+      results: results ?? this.results,
+    );
+  }
 }

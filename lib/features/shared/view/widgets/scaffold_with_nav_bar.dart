@@ -4,16 +4,19 @@ import 'package:go_router/go_router.dart';
 class ScaffoldWithNavBar extends StatefulWidget {
   final Widget child;
 
-  const ScaffoldWithNavBar({
-    required this.child,
-  });
+  const ScaffoldWithNavBar({super.key, required this.child});
 
   @override
-  _ScaffoldWithNavBarState createState() => _ScaffoldWithNavBarState();
+  State<ScaffoldWithNavBar> createState() => _ScaffoldWithNavBarState();
 }
 
 class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
-  int _currentIndex = 0; // Başlangıçta varsayılan olarak ilk index
+  var currentIndex = 0;
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +40,8 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
             label: 'Followed',
           ),
         ],
-        currentIndex: _currentIndex,
+        currentIndex: currentIndex,
         onTap: (index) {
-          setState(() {
-            _currentIndex = index; // Tıklanan index değerini setle
-          });
-
           switch (index) {
             case 0:
               context.go('/characters');

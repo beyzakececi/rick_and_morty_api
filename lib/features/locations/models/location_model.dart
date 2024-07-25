@@ -42,4 +42,13 @@ class ListLocationModel {
       _$ListLocationModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$ListLocationModelToJson(this);
+
+  // CopyWith method to create a new instance with modified fields
+  ListLocationModel copyWith({
+    List<LocationModel>? results,
+  }) {
+    return ListLocationModel(
+      results: results ?? this.results,
+    );
+  }
 }

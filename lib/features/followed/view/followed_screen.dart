@@ -1,58 +1,83 @@
+// followed_screen.dart
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:rick_and_morty/features/followed/view/widget/followed_card.dart';
-import '../viewmodel/followed_viewmodel.dart'; // Ensure correct import path
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class FollowedScreen extends StatelessWidget {
+import '../bloc/followed_bloc.dart';
+import '../bloc/followed_events.dart';
+import '../bloc/followed_states.dart';
+import '../view/widget/followed_card.dart';
+
+class FollowedScreen extends StatefulWidget {
   const FollowedScreen({super.key});
 
   @override
+  State<FollowedScreen> createState() => _FollowedScreenState();
+}
+
+class _FollowedScreenState extends State<FollowedScreen> {
+  initState() {
+    super.initState();
+
+    context.read<FollowedBloc>().add(LoadFolloweds());
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => FollowedViewModel(),
-      child: Scaffold(
-        body: Consumer<FollowedViewModel>(
-          builder: (context, followedViewModel, child) {
+    return Scaffold(
+      body: BlocBuilder<FollowedBloc, FollowedState>(
+        builder: (context, state) {
+          if (state is FollowedLoading) {
+            return Center(child: CircularProgressIndicator());
+          } else if (state is FollowedLoaded) {
             return ListView(
               children: [
                 const ListTile(
-                  title: Text('Followed Characters', style: TextStyle(color: Colors.black, fontSize: 20)),
+                  title: Text('Followed Characters',
+                      style: TextStyle(color: Colors.black, fontSize: 20)),
                 ),
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: followedViewModel.followedCharacters.results.length,
+                  itemCount: state.followedCharacters.results.length,
                   itemBuilder: (context, index) {
                     return FollowedCard(
-                      character: followedViewModel.followedCharacters.results[index],
+                      character: state.followedCharacters.results[index],
                       isCharacter: true,
                       onRemove: () {
-                        followedViewModel.removeFollowedCharacter(followedViewModel.followedCharacters.results[index].name);
+                        context.read<FollowedBloc>().add(
+                            RemoveFollowedCharacter(
+                                state.followedCharacters.results[index].name));
                       },
                     );
                   },
                 ),
                 const ListTile(
-                  title: Text('Followed Locations', style: TextStyle(color: Colors.black, fontSize: 20)),
+                  title: Text('Followed Locations',
+                      style: TextStyle(color: Colors.black, fontSize: 20)),
                 ),
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: followedViewModel.followedLocations.results.length,
+                  itemCount: state.followedLocations.results.length,
                   itemBuilder: (context, index) {
                     return FollowedCard(
-                      location: followedViewModel.followedLocations.results[index],
+                      location: state.followedLocations.results[index],
                       isCharacter: false,
                       onRemove: () {
-                        followedViewModel.removeFollowedLocation(followedViewModel.followedLocations.results[index].name);
+                        context.read<FollowedBloc>().add(RemoveFollowedLocation(
+                            state.followedLocations.results[index].name));
                       },
                     );
                   },
                 ),
               ],
             );
-          },
-        ),
+          } else if (state is FollowedError) {
+            return Center(child: Text(state.message));
+          } else {
+            return Center(child: Text('Unexpected state'));
+          }
+        },
       ),
     );
   }

@@ -1,3 +1,4 @@
+// lib/product/routers/app_router.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/character/view/screens/character_list_screen.dart';
@@ -48,4 +49,3 @@ final GoRouter router = GoRouter(
     ),
   ],
 );
-

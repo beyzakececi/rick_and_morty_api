@@ -1,32 +1,68 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../../locations/viewmodel/data_provider.dart';
-import '../../../shared/view/widgets/search_bar_custom.dart';
-import '../../models/location_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../locations/bloc/location_bloc.dart';
+import '../../../locations/bloc/location_event.dart';
+import '../../../locations/bloc/location_state.dart';
 import '../widget/location_card.dart';
 
-class LocationListScreen extends StatelessWidget {
-  const LocationListScreen({Key? key}) : super(key: key);
+class LocationListScreen extends StatefulWidget {
+  const LocationListScreen({super.key});
+
+  @override
+  State<LocationListScreen> createState() => _LocationListScreenState();
+}
+
+class _LocationListScreenState extends State<LocationListScreen> {
+  initState() {
+    super.initState();
+
+    context.read<LocationBloc>().add(FetchLocations());
+  }
 
   @override
   Widget build(BuildContext context) {
-    final dataProvider = Provider.of<DataProvider>(context);
-    print('location:');
-
-    var _location = dataProvider.locations.results as List<LocationModel>;
-    print(dataProvider);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(50.0),
-        child: SearchBarCustom(dataProvider: dataProvider),
+        child: BlocBuilder<LocationBloc, LocationState>(
+          builder: (context, state) {
+            return Expanded(
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: 'Search...',
+                  prefixIcon: Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    borderSide: BorderSide.none,
+                  ),
+                  filled: true,
+                  contentPadding: EdgeInsets.zero,
+                  fillColor: Colors.grey[200],
+                ),
+                onChanged: (query) {
+                  context.read<LocationBloc>().add(SearchLocations(query: query));
+                },
+              ),
+            );
+          }
+        ),
       ),
-
-       body: dataProvider.isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-        itemCount: dataProvider.locations.results.length,
-        itemBuilder: (context, index) {
-          return LocationCard(location: _location[index]);
+      body: BlocBuilder<LocationBloc, LocationState>(
+        builder: (context, state) {
+          if (state is LocationLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is LocationLoaded) {
+            final locations = state.locations;
+            return ListView.builder(
+              itemCount: locations.length,
+              itemBuilder: (context, index) {
+                return LocationCard(location: locations[index]);
+              },
+            );
+          } else if (state is LocationError) {
+            return Center(child: Text(state.message));
+          }
+          return Container();
         },
       ),
     );

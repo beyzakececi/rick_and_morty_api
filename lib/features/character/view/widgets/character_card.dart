@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../bloc/character_bloc.dart';
+import '../../bloc/character_event.dart';
+import '../../bloc/character_state.dart';
 import '../../models/character_model.dart';
-import '../../viewmodel/character_viewmodel.dart';
 
 class CharacterCard extends StatelessWidget {
   final CharacterModel character;
@@ -10,8 +12,6 @@ class CharacterCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = Provider.of<CharacterViewModel>(context);
-
     // Extract episode number from the URL
     String episodeNumber = character.episode.isNotEmpty
         ? character.episode.first.split('/').last
@@ -124,16 +124,23 @@ class CharacterCard extends StatelessWidget {
           ),
           // Conditional Favorite icon button
           if (character.status.toLowerCase() == 'alive')
-            IconButton(
-              icon: viewModel.isFollowed(character.name)
-                  ? const Icon(Icons.favorite, color: Colors.red, size: 30)
-                  : const Icon(Icons.favorite_border, color: Colors.white, size: 30),
-              onPressed: () async {
-                if (viewModel.isFollowed(character.name)) {
-                  await viewModel.removeFollowedCharacter(character.name);
-                } else {
-                  await viewModel.addFollowedCharacter(character.name);
-                }
+            BlocBuilder<CharacterBloc, CharacterState>(
+              builder: (context, state) {
+                bool isFollowed = state is CharacterLoaded
+                    && state.followedCharacters.contains(character.name);
+
+                return IconButton(
+                  icon: isFollowed
+                      ? const Icon(Icons.favorite, color: Colors.red, size: 30)
+                      : const Icon(Icons.favorite_border, color: Colors.white, size: 30),
+                  onPressed: () {
+                    if (isFollowed) {
+                      context.read<CharacterBloc>().add(UnfollowCharacterEvent(character.name));
+                    } else {
+                      context.read<CharacterBloc>().add(FollowCharacterEvent(character.name));
+                    }
+                  },
+                );
               },
             ),
         ],

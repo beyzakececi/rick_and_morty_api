@@ -1,3 +1,4 @@
+// lib/features/character/view/screens/character_detail_screen.dart
 import 'package:flutter/material.dart';
 import '../../models/character_model.dart';
 
